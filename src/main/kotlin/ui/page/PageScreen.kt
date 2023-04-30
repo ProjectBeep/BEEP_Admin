@@ -25,15 +25,15 @@ fun PageScreen() {
     val viewModel = remember { PageViewModel() }
     Column {
         PageToolbar(
-            viewModel.showAdd.value,
-            onShowAddToggle = {
-                viewModel.showAdd.value = it
+            viewModel.showEdit.value,
+            onShowEditToggle = {
+                viewModel.showEdit.value = it
             },
         )
         Row {
             PageListScreen(modifier = Modifier.weight(1f))
-            if (viewModel.showAdd.value) {
-                AddPageScreen()
+            if (viewModel.showEdit.value) {
+                EditPageScreen()
             }
         }
     }
@@ -42,15 +42,15 @@ fun PageScreen() {
 @Composable
 private fun PageToolbar(
     showAdd: Boolean,
-    onShowAddToggle: (Boolean) -> Unit,
+    onShowEditToggle: (Boolean) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxWidth().height(48.dp)) {
         Icon(
             modifier = Modifier.align(Alignment.CenterEnd).size(36.dp).clickable {
-                onShowAddToggle(!showAdd)
+                onShowEditToggle(!showAdd)
             },
             painter = painterResource(
-                if (showAdd) "drawable/icon_hide_add.svg" else "drawable/icon_show_add.svg",
+                if (showAdd) "drawable/icon_hide_edit.svg" else "drawable/icon_show_edit.svg",
             ),
             contentDescription = "화면 추가 축소/확장 아이콘",
         )
@@ -63,6 +63,6 @@ private fun PageListScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun AddPageScreen() {
+private fun EditPageScreen() {
     Spacer(modifier = Modifier.fillMaxHeight().width(400.dp).background(Color.Green))
 }
