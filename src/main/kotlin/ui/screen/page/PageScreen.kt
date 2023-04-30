@@ -39,7 +39,10 @@ fun PageScreen(
                 },
             )
             if (pageState.showEdit.value) {
-                PageEditorScreen()
+                PageEditorScreen(
+                    model = screenState.selectedModel.value,
+                    onChangeDropRect = { pageState.changeDropRange(it) }
+                )
             }
         }
     }

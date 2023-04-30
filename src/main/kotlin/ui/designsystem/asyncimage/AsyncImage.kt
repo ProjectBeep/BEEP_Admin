@@ -39,9 +39,9 @@ fun AsyncImage(
         }
 
         is ImageState.Success -> {
-            val painter = (state as ImageState.Success).painter
+            val image = (state as ImageState.Success).imageModel
             Image(
-                painter = painter,
+                painter = AsyncImageCache.painterFor(image),
                 contentDescription = contentDescription,
                 contentScale = contentScale,
                 modifier = modifier,

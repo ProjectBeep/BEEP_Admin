@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import theme.Compose
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
 import ui.screen.navigation.NavScreen
@@ -20,6 +23,11 @@ import ui.screen.navigation.Navigation
 import ui.screen.page.PageScreen
 import ui.screen.page.PageState
 import ui.screen.text.TextScreen
+import java.awt.datatransfer.DataFlavor
+import java.awt.dnd.DropTarget
+import java.awt.dnd.DropTargetDragEvent
+import java.awt.dnd.DropTargetDropEvent
+import java.io.File
 
 fun main() = application {
     Window(
@@ -30,6 +38,29 @@ fun main() = application {
         val navViewModel = NavViewModel()
         val screenState = ScreenState()
         val pageState = PageState()
+
+        val density = LocalDensity.current
+        LaunchedEffect(key1 = null) {
+            Compose.density = density
+        }
+
+        window.contentPane.dropTarget = object : DropTarget() {
+            override fun dragOver(dtde: DropTargetDragEvent?) {
+                println("over : ${dtde?.location}")
+
+                val a = dtde?.transferable?.getTransferData(
+                    DataFlavor.javaFileListFlavor,
+                ) as? List<File>
+
+                a?.forEach {
+                    println(it.absolutePath)
+                }
+            }
+
+            override fun drop(dtde: DropTargetDropEvent?) {
+                println("drop : ${dtde?.location}")
+            }
+        }
 
         MaterialTheme {
             Column {

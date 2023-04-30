@@ -1,6 +1,7 @@
 package ui.screen.page
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.geometry.Rect
 import ui.common.state.LazyGridScrollState
 
 class PageState {
@@ -10,5 +11,11 @@ class PageState {
 
     fun changeShowEdit(value: Boolean) {
         showEdit.value = value
+    }
+
+    val dropRect = mutableStateOf(Rect.Zero)
+
+    fun changeDropRange(rect: Rect) {
+        dropRect.value = rect
     }
 }
