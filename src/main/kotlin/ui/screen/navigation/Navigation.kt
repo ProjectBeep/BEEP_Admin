@@ -1,4 +1,4 @@
-package ui.navigation
+package ui.screen.navigation
 
 enum class Navigation(
     val title: String,

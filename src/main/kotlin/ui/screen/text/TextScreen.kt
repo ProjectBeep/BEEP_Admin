@@ -1,4 +1,4 @@
-package ui.color
+package ui.screen.text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,12 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import ui.screen.ScreenState
 
 @Composable
-fun ColorScreen() {
+fun TextScreen(
+    screenState: ScreenState,
+) {
     Column(
         Modifier.fillMaxSize()
-            .background(Color.Blue),
+            .background(Color.Green),
         Arrangement.spacedBy(5.dp),
     ) {
         Button(

@@ -1,7 +1,10 @@
-package ui.navigation
+package ui.screen.navigation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -13,11 +16,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NavScreen(onNavClick: (Navigation) -> Unit = {}) {
-    Column(
+    LazyColumn(
         modifier = Modifier.width(160.dp),
     ) {
-        Navigation.values().forEachIndexed { index, navigation ->
-            NavItem(navigation, onNavClick)
+        itemsIndexed(Navigation.values()) { index, nav ->
+            NavItem(nav, onNavClick)
             if (index != Navigation.values().lastIndex) {
                 Divider(modifier = Modifier.fillMaxWidth().width(1.dp))
             }

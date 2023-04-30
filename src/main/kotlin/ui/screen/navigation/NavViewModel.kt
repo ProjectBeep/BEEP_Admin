@@ -1,4 +1,4 @@
-package ui.navigation
+package ui.screen.navigation
 
 import androidx.compose.runtime.mutableStateOf
 
