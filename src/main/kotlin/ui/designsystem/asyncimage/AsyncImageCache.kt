@@ -3,7 +3,6 @@ package ui.designsystem.asyncimage
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import ui.designsystem.asyncimage.formatter.DefaultImageFormatter
-import ui.designsystem.asyncimage.formatter.ImageFormatter
 import ui.designsystem.asyncimage.formatter.SvgImageFormatter
 import ui.designsystem.asyncimage.formatter.XmlImageFormatter
 import ui.designsystem.asyncimage.loader.DefaultImageLoader
