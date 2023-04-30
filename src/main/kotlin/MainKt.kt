@@ -1,5 +1,13 @@
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -24,14 +32,29 @@ fun main() = application {
         val pageState = PageState()
 
         MaterialTheme {
-            Row {
-                NavScreen {
-                    navViewModel.page.value = it
+            Column {
+                Row(modifier = Modifier.weight(1f)) {
+                    NavScreen {
+                        navViewModel.page.value = it
+                    }
+                    when (navViewModel.page.value) {
+                        Navigation.PAGE -> PageScreen(screenState, pageState)
+                        Navigation.COLOR -> ColorScreen(screenState)
+                        Navigation.TEXT -> TextScreen(screenState)
+                    }
                 }
-                when (navViewModel.page.value) {
-                    Navigation.PAGE -> PageScreen(screenState, pageState)
-                    Navigation.COLOR -> ColorScreen(screenState)
-                    Navigation.TEXT -> TextScreen(screenState)
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .height(48.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    Button(onClick = {}) {
+                        Text(text = "리소스 적용")
+                    }
+                    Button(onClick = {}) {
+                        Text(text = "APK 생성")
+                    }
                 }
             }
         }
