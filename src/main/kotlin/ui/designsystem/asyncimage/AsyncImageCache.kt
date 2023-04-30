@@ -8,7 +8,6 @@ import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.unit.Density
-import org.succlz123.lib.imageloader.cache.core.LruCache
 import org.xml.sax.InputSource
 import java.io.BufferedInputStream
 import java.io.File
