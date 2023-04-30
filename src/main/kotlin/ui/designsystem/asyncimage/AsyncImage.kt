@@ -16,6 +16,12 @@ fun AsyncImage(
     contentDescription: String?,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
+    failedContent: @Composable () -> Unit = {
+        Spacer(modifier = modifier)
+    },
+    placeholder: @Composable () -> Unit = {
+        Spacer(modifier = modifier)
+    },
 ) {
     val state by produceState<ImageState>(ImageState.Loading) {
         value = withContext(Dispatchers.IO) {
@@ -25,11 +31,11 @@ fun AsyncImage(
 
     when (state) {
         is ImageState.Loading -> {
-            Spacer(modifier = modifier)
+            placeholder()
         }
 
         is ImageState.Failed -> {
-            Spacer(modifier = modifier)
+            failedContent()
         }
 
         is ImageState.Success -> {
