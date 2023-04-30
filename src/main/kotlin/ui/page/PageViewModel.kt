@@ -4,5 +4,5 @@ import androidx.compose.runtime.mutableStateOf
 
 class PageViewModel {
 
-    val showAdd = mutableStateOf(false)
+    val showAdd = mutableStateOf(true)
 }
