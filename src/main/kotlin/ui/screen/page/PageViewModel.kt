@@ -9,7 +9,7 @@ class PageViewModel {
             "home",
             "홈",
             "https://firebasestorage.googleapis.com/v0/b/beep-3fcc2.appspot.com/o/screens%2Fhome.jpg?alt=media&token=90bcd6f9-2046-4afd-94f4-f51366c6def9",
-            "",
+            "123",
             "",
             "",
         ),
@@ -18,7 +18,7 @@ class PageViewModel {
             "리스트",
             "https://firebasestorage.googleapis.com/v0/b/beep-3fcc2.appspot.com/o/screens%2Flist.jpg?alt=media&token=631702bd-94cf-4ffc-ae5a-413c3cc5280c",
             "",
-            "",
+            "123",
             "",
         ),
         PageModel(
@@ -27,7 +27,7 @@ class PageViewModel {
             "https://firebasestorage.googleapis.com/v0/b/beep-3fcc2.appspot.com/o/screens%2Fsetting.jpg?alt=media&token=ab811ede-f14c-4cdb-980b-dbcf5ca1047c",
             "",
             "",
-            "",
+            "123",
         ),
         PageModel(
             "gallery",
@@ -48,6 +48,10 @@ class PageViewModel {
     )
 
     val pageList = mutableStateOf(
-        initList + initList + initList,
+        initList + initList.map {
+            it.copy(dir = "${it.dir}1")
+        } + initList.map {
+            it.copy(dir = "${it.dir}2")
+        },
     )
 }
