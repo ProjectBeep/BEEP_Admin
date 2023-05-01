@@ -29,22 +29,45 @@ fun PageScreen(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
                 ) {
+                    pageState.selectModel(null)
                     screenState.selectModel(null)
                 },
                 list = viewModel.pageList.value,
                 state = pageState.lazyGridScrollState,
                 selectedModel = screenState.selectedModel.value,
                 onSelectModel = {
+                    pageState.selectModel(it)
                     screenState.selectModel(it)
                 },
             )
             if (pageState.showEdit.value) {
                 PageEditorScreen(
+                    scrollState = pageState.editorScrollState,
+                    model = screenState.selectedModel.value,
                     isDragOver = pageState.dragOver.value,
                     isDropAllow = pageState.dropAllow.value,
                     tempFile = pageState.dropFile.value,
-                    model = screenState.selectedModel.value,
+                    displayNameValue = pageState.editDisplayNameValue.value,
+                    dirValue = pageState.editDirValue.value,
+                    figmaUrlValue = pageState.editFigmaUrlValue.value,
+                    zeplinUrlValue = pageState.editZeplinUrlValue.value,
+                    wikiUrlValue = pageState.editWikiUrlValue.value,
                     onChangeDropRect = { pageState.changeDropRect(it) },
+                    onDisplayNameChange = {
+                        pageState.editDisplayNameValue.value = it
+                    },
+                    onDirChange = {
+                        pageState.editDirValue.value = it
+                    },
+                    onFigmaUrlChange = {
+                        pageState.editFigmaUrlValue.value = it
+                    },
+                    onZeplinUrlChange = {
+                        pageState.editZeplinUrlValue.value = it
+                    },
+                    onWikiUrlChange = {
+                        pageState.editWikiUrlValue.value = it
+                    },
                 )
             }
         }

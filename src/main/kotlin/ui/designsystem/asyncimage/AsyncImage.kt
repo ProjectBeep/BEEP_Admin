@@ -28,13 +28,21 @@ fun AsyncImage(
         Spacer(modifier = modifier)
     },
 ) {
-    val state by produceState<ImageState>(ImageState.Loading) {
-        value = withContext(Dispatchers.IO) {
+//    val state by produceState<ImageState>(ImageState.Loading) {
+//        value = withContext(Dispatchers.IO) {
+//            AsyncImageCache.getImage(url)
+//        }
+//    }
+
+    val scope = rememberCoroutineScope()
+    val state = remember { mutableStateOf<ImageState>(ImageState.Loading) }
+    scope.launch {
+        state.value = withContext(Dispatchers.IO) {
             AsyncImageCache.getImage(url)
         }
     }
 
-    AsyncImage(state, contentDescription, modifier, contentScale, failedContent, placeholder)
+    AsyncImage(state.value, contentDescription, modifier, contentScale, failedContent, placeholder)
 }
 
 @Composable

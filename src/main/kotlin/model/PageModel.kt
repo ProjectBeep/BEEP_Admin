@@ -1,6 +1,7 @@
 package model
 
 data class PageModel(
+    val id: String,
     val dir: String,
     val displayName: String,
     val thumbnail: String,
