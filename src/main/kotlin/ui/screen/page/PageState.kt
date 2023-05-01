@@ -13,7 +13,7 @@ class PageState {
 
     val editorScrollState = ScrollState(initial = 0)
 
-    val showEdit = mutableStateOf(true)
+    val showEdit = mutableStateOf(false)
 
     fun changeShowEdit(value: Boolean) {
         showEdit.value = value

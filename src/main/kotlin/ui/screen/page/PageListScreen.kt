@@ -31,6 +31,8 @@ import theme.Dimen
 import ui.common.state.LazyGridScrollState
 import ui.common.state.persistedLazyGridScrollState
 import ui.designsystem.asyncimage.AsyncImage
+import java.awt.Desktop
+import java.net.URI
 
 @Composable
 fun PageListScreen(
@@ -113,16 +115,38 @@ private fun PageItem(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
         ) {
             if (model.wikiUrl.isNotEmpty()) {
-                CircleIcon(resourcePath = "drawable/icon_wiki_link.svg")
+                CircleIcon(
+                    resourcePath = "drawable/icon_wiki_link.svg",
+                    onClick = {
+                        openBrowse(model.wikiUrl)
+                    },
+                )
             }
             if (model.figmaUrl.isNotEmpty()) {
-                CircleIcon(modifier = Modifier.padding(top = 12.dp), resourcePath = "drawable/icon_figma_link.svg")
+                CircleIcon(
+                    modifier = Modifier.padding(top = 12.dp),
+                    resourcePath = "drawable/icon_figma_link.svg",
+                    onClick = {
+                        openBrowse(model.figmaUrl)
+                    },
+                )
             }
             if (model.zeplinUrl.isNotEmpty()) {
-                CircleIcon(modifier = Modifier.padding(top = 12.dp), resourcePath = "drawable/icon_zeplin_link.svg")
+                CircleIcon(
+                    modifier = Modifier.padding(top = 12.dp),
+                    resourcePath = "drawable/icon_zeplin_link.svg",
+                    onClick = {
+                        openBrowse(model.zeplinUrl)
+                    },
+                )
             }
         }
     }
+}
+
+private fun openBrowse(link: String) {
+    val desktop = Desktop.getDesktop()
+    desktop?.browse(URI(link))
 }
 
 @Composable

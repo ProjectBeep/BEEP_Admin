@@ -73,7 +73,9 @@ fun main() = application {
         MaterialTheme {
             Column {
                 Row(modifier = Modifier.weight(1f)) {
-                    NavScreen {
+                    NavScreen(
+                        navViewModel.page.value,
+                    ) {
                         navViewModel.page.value = it
                     }
                     when (navViewModel.page.value) {
