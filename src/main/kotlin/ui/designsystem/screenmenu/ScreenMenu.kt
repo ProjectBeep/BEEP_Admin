@@ -61,6 +61,7 @@ fun ScreenMenu(
                 },
                 onClick = {
                     onPageChange(it)
+                    screenMenuState.changeExpanded(false)
                 },
             ) {
                 Text(text = it.displayName)
