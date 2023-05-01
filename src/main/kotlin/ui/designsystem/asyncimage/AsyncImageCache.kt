@@ -9,6 +9,7 @@ import ui.designsystem.asyncimage.loader.DefaultImageLoader
 import ui.designsystem.asyncimage.loader.SvgImageLoader
 import ui.designsystem.asyncimage.loader.XmlImageLoader
 import ui.designsystem.asyncimage.model.ImageModel
+import java.io.File
 
 object AsyncImageCache {
 
@@ -23,6 +24,23 @@ object AsyncImageCache {
             val loader = getImageLoader(url)
             val image = loader.loadImage(url).also {
                 memoryCache.put(url, it)
+            }
+            ImageState.Success(image)
+        } catch (e: Exception) {
+            ImageState.Failed(e)
+        }
+    }
+
+    fun getImage(file: File?): ImageState {
+        file ?: return ImageState.Failed(NullPointerException())
+        return try {
+            val memory = memoryCache.get(file.path)
+            if (memory != null) {
+                return ImageState.Success(memory)
+            }
+            val loader = getImageLoader(file.path)
+            val image = loader.loadImage(file).also {
+                memoryCache.put(file.path, it)
             }
             ImageState.Success(image)
         } catch (e: Exception) {

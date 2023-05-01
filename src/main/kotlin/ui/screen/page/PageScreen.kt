@@ -40,8 +40,11 @@ fun PageScreen(
             )
             if (pageState.showEdit.value) {
                 PageEditorScreen(
+                    isDragOver = pageState.dragOver.value,
+                    isDropAllow = pageState.dropAllow.value,
+                    tempFile = pageState.dropFile.value,
                     model = screenState.selectedModel.value,
-                    onChangeDropRect = { pageState.changeDropRange(it) },
+                    onChangeDropRect = { pageState.changeDropRect(it) },
                 )
             }
         }

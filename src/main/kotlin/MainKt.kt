@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import theme.Compose
+import core.Compose
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
 import ui.screen.navigation.NavScreen
@@ -24,6 +24,7 @@ import ui.screen.page.PageScreen
 import ui.screen.page.PageState
 import ui.screen.text.TextScreen
 import java.awt.datatransfer.DataFlavor
+import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
 import java.awt.dnd.DropTargetDragEvent
 import java.awt.dnd.DropTargetDropEvent
@@ -45,20 +46,27 @@ fun main() = application {
         }
 
         window.contentPane.dropTarget = object : DropTarget() {
+            private val allowExt = setOf("jpg", "png", "webp", "xml", "svg")
+
             override fun dragOver(dtde: DropTargetDragEvent?) {
-                println("over : ${dtde?.location}")
-
-                val a = dtde?.transferable?.getTransferData(
-                    DataFlavor.javaFileListFlavor,
-                ) as? List<File>
-
-                a?.forEach {
-                    println(it.absolutePath)
+                dtde ?: return
+                if (pageState.isDropOver(dtde.location)) {
+                    val dragFiles = dtde.transferable?.getTransferData(DataFlavor.javaFileListFlavor) as? List<File>
+                    val files = dragFiles?.filter { it.extension in allowExt }
+                    pageState.dropAllow.value = files?.isNotEmpty() ?: false
                 }
             }
 
             override fun drop(dtde: DropTargetDropEvent?) {
-                println("drop : ${dtde?.location}")
+                pageState.dragOver.value = false
+
+                dtde ?: return
+                if (pageState.dropAllow.value) {
+                    pageState.dropAllow.value = false
+                    dtde.acceptDrop(DnDConstants.ACTION_REFERENCE)
+                    val dropFiles = dtde.transferable?.getTransferData(DataFlavor.javaFileListFlavor) as? List<File>
+                    pageState.dropFile.value = dropFiles?.first { it.extension in allowExt } ?: return
+                }
             }
         }
 

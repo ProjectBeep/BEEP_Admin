@@ -30,7 +30,7 @@ abstract class ImageLoader<T : ImageModel> {
         return file.inputStream().buffered()
     }
 
-    protected abstract fun loadDiskCache(inputStream: InputStream): T
+    protected abstract fun loadLocal(inputStream: InputStream): T
 
     private fun getRemoteInputStream(url: String): InputStream {
         return URL(url).openStream().buffered()
@@ -42,13 +42,17 @@ abstract class ImageLoader<T : ImageModel> {
         }
     }
 
+    fun loadImage(file: File): T {
+        return loadLocal(file.inputStream().buffered())
+    }
+
     fun loadImage(url: String): T {
         val diskCache = getDiskCache(url)
         return if (diskCache.exists()) {
-            loadDiskCache(getDiskCacheInputStream(diskCache))
+            loadLocal(getDiskCacheInputStream(diskCache))
         } else {
             saveDiskCache(getRemoteInputStream(url), diskCache)
-            loadDiskCache(getDiskCacheInputStream(diskCache))
+            loadLocal(getDiskCacheInputStream(diskCache))
         }
     }
 }

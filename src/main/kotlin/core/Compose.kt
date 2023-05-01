@@ -1,4 +1,4 @@
-package theme
+package core
 
 import androidx.compose.ui.unit.Density
 
