@@ -7,15 +7,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import model.PageModel
 import ui.screen.ScreenState
 
 @Composable
 fun PageScreen(
+    pageList: List<PageModel>,
     screenState: ScreenState,
     pageState: PageState,
 ) {
-    val viewModel = remember { PageViewModel() }
-
     Column {
         PageToolbar(
             pageState.showEdit.value,
@@ -32,7 +32,7 @@ fun PageScreen(
                     pageState.selectModel(null)
                     screenState.selectModel(null)
                 },
-                list = viewModel.pageList.value,
+                list = pageList,
                 state = pageState.lazyGridScrollState,
                 selectedModel = screenState.selectedModel.value,
                 onSelectModel = {

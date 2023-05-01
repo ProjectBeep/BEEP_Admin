@@ -11,10 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import model.PageModel
 import ui.screen.ScreenState
 
 @Composable
 fun ColorScreen(
+    pageList: List<PageModel>,
     screenState: ScreenState,
 ) {
     Column(

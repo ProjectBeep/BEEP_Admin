@@ -18,10 +18,11 @@ import core.Compose
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
 import ui.screen.navigation.NavScreen
-import ui.screen.navigation.NavViewModel
+import ui.screen.navigation.NavState
 import ui.screen.navigation.Navigation
 import ui.screen.page.PageScreen
 import ui.screen.page.PageState
+import ui.screen.page.PageViewModel
 import ui.screen.text.TextScreen
 import java.awt.datatransfer.DataFlavor
 import java.awt.dnd.DnDConstants
@@ -36,9 +37,10 @@ fun main() = application {
         title = "Beep 관리자 프로그램",
         state = rememberWindowState(width = 1600.dp, height = 900.dp),
     ) {
-        val navViewModel = NavViewModel()
+        val navState = NavState()
         val screenState = ScreenState()
         val pageState = PageState()
+        val pageViewModel = PageViewModel()
 
         val density = LocalDensity.current
         LaunchedEffect(key1 = null) {
@@ -74,14 +76,26 @@ fun main() = application {
             Column {
                 Row(modifier = Modifier.weight(1f)) {
                     NavScreen(
-                        navViewModel.page.value,
+                        navState.page.value,
                     ) {
-                        navViewModel.page.value = it
+                        navState.page.value = it
                     }
-                    when (navViewModel.page.value) {
-                        Navigation.PAGE -> PageScreen(screenState, pageState)
-                        Navigation.COLOR -> ColorScreen(screenState)
-                        Navigation.TEXT -> TextScreen(screenState)
+                    when (navState.page.value) {
+                        Navigation.PAGE -> PageScreen(
+                            pageViewModel.pageList.value,
+                            screenState,
+                            pageState,
+                        )
+
+                        Navigation.COLOR -> ColorScreen(
+                            pageViewModel.pageList.value,
+                            screenState,
+                        )
+
+                        Navigation.TEXT -> TextScreen(
+                            pageViewModel.pageList.value,
+                            screenState,
+                        )
                     }
                 }
                 Row(
