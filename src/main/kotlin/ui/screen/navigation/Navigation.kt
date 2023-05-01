@@ -6,6 +6,7 @@ enum class Navigation(
 ) {
 
     PAGE("화면", "drawable/icon_nav_web_asset.svg"),
+    IMAGE("이미지", "drawable/icon_nav_image.svg"),
     COLOR("색상", "drawable/icon_nav_color.svg"),
     TEXT("텍스트", "drawable/icon_nav_text.svg"),
 }

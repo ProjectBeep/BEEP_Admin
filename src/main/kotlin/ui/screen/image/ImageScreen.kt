@@ -1,4 +1,4 @@
-package ui.screen.color
+package ui.screen.image
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
@@ -7,12 +7,12 @@ import ui.designsystem.screenmenu.ScreenMenu
 import ui.screen.ScreenState
 
 @Composable
-fun ColorScreen(
+fun ImageScreen(
     pageList: List<PageModel>,
     screenState: ScreenState,
-    colorScreenState: ColorScreenState,
+    imageScreenState: ImageScreenState,
 ) {
-    ColorToolbar(
+    ImageToolbar(
         pageList = pageList,
         current = screenState.selectedModel.value,
         onPageChange = {
@@ -22,7 +22,7 @@ fun ColorScreen(
 }
 
 @Composable
-fun ColorToolbar(
+fun ImageToolbar(
     pageList: List<PageModel>,
     current: PageModel?,
     onPageChange: (PageModel) -> Unit,

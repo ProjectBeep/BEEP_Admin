@@ -17,6 +17,9 @@ import androidx.compose.ui.window.rememberWindowState
 import core.Compose
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
+import ui.screen.color.ColorScreenState
+import ui.screen.image.ImageScreen
+import ui.screen.image.ImageScreenState
 import ui.screen.navigation.NavScreen
 import ui.screen.navigation.NavState
 import ui.screen.navigation.Navigation
@@ -24,6 +27,7 @@ import ui.screen.page.PageScreen
 import ui.screen.page.PageState
 import ui.screen.page.PageViewModel
 import ui.screen.text.TextScreen
+import ui.screen.text.TextScreenState
 import java.awt.datatransfer.DataFlavor
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
@@ -32,16 +36,19 @@ import java.awt.dnd.DropTargetDropEvent
 import java.io.File
 
 fun main() = application {
+    val navState = NavState()
+    val screenState = ScreenState()
+    val pageState = PageState()
+    val imageScreenState = ImageScreenState()
+    val colorScreenState = ColorScreenState()
+    val textScreenState = TextScreenState()
+    val pageViewModel = PageViewModel()
+
     Window(
         onCloseRequest = ::exitApplication,
         title = "Beep 관리자 프로그램",
         state = rememberWindowState(width = 1600.dp, height = 900.dp),
     ) {
-        val navState = NavState()
-        val screenState = ScreenState()
-        val pageState = PageState()
-        val pageViewModel = PageViewModel()
-
         val density = LocalDensity.current
         LaunchedEffect(key1 = null) {
             Compose.density = density
@@ -87,14 +94,22 @@ fun main() = application {
                             pageState,
                         )
 
+                        Navigation.IMAGE -> ImageScreen(
+                            pageViewModel.pageList.value,
+                            screenState,
+                            imageScreenState,
+                        )
+
                         Navigation.COLOR -> ColorScreen(
                             pageViewModel.pageList.value,
                             screenState,
+                            colorScreenState,
                         )
 
                         Navigation.TEXT -> TextScreen(
                             pageViewModel.pageList.value,
                             screenState,
+                            textScreenState,
                         )
                     }
                 }
