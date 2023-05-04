@@ -43,6 +43,7 @@ fun PageListScreen(
     onSelectModel: (PageModel) -> Unit,
     onColorClick: (PageModel) -> Unit,
     onImageClick: (PageModel) -> Unit,
+    onFontClick: (PageModel) -> Unit,
     onTextClick: (PageModel) -> Unit,
 ) {
     LazyVerticalGrid(
@@ -59,6 +60,7 @@ fun PageListScreen(
                 onSelectModel = onSelectModel,
                 onColorClick = onColorClick,
                 onImageClick = onImageClick,
+                onFontClick = onFontClick,
                 onTextClick = onTextClick,
             )
         }
@@ -72,6 +74,7 @@ private fun PageItem(
     onSelectModel: (PageModel) -> Unit,
     onColorClick: (PageModel) -> Unit,
     onImageClick: (PageModel) -> Unit,
+    onFontClick: (PageModel) -> Unit,
     onTextClick: (PageModel) -> Unit,
 ) {
     Box {
@@ -126,6 +129,13 @@ private fun PageItem(
                 resourcePath = "drawable/icon_color.svg",
                 onClick = {
                     onColorClick(model)
+                },
+            )
+            CircleIcon(
+                modifier = Modifier.padding(top = 12.dp),
+                resourcePath = "drawable/icon_font.svg",
+                onClick = {
+                    onFontClick(model)
                 },
             )
             CircleIcon(

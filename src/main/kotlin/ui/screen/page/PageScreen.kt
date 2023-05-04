@@ -17,6 +17,7 @@ fun PageScreen(
     pageState: PageState,
     onColorClick: (PageModel) -> Unit,
     onImageClick: (PageModel) -> Unit,
+    onFontClick: (PageModel) -> Unit,
     onTextClick: (PageModel) -> Unit,
 ) {
     Column {
@@ -44,6 +45,7 @@ fun PageScreen(
                 },
                 onColorClick = onColorClick,
                 onImageClick = onImageClick,
+                onFontClick = onFontClick,
                 onTextClick = onTextClick,
             )
             if (pageState.showEdit.value) {

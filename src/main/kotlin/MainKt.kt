@@ -18,6 +18,8 @@ import core.Compose
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
 import ui.screen.color.ColorScreenState
+import ui.screen.font.FontScreen
+import ui.screen.font.FontScreenState
 import ui.screen.image.ImageScreen
 import ui.screen.image.ImageScreenState
 import ui.screen.navigation.NavScreen
@@ -41,6 +43,7 @@ fun main() = application {
     val pageState = PageState()
     val imageScreenState = ImageScreenState()
     val colorScreenState = ColorScreenState()
+    val fontScreenState = FontScreenState()
     val textScreenState = TextScreenState()
     val pageViewModel = PageViewModel()
 
@@ -100,6 +103,10 @@ fun main() = application {
                                 screenState.selectModel(it)
                                 navState.page.value = Navigation.COLOR
                             },
+                            onFontClick = {
+                                screenState.selectModel(it)
+                                navState.page.value = Navigation.FONT
+                            },
                             onTextClick = {
                                 screenState.selectModel(it)
                                 navState.page.value = Navigation.TEXT
@@ -116,6 +123,13 @@ fun main() = application {
                             pageViewModel.pageList.value,
                             screenState,
                             colorScreenState,
+                            onImportClick = {},
+                            onExportClick = {},
+                        )
+                        Navigation.FONT -> FontScreen(
+                            pageViewModel.pageList.value,
+                            screenState,
+                            fontScreenState,
                         )
 
                         Navigation.TEXT -> TextScreen(

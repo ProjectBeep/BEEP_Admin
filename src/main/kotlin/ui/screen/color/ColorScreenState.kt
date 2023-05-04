@@ -2,6 +2,7 @@ package ui.screen.color
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.geometry.Rect
 import model.ColorModel
 
 class ColorScreenState {
@@ -17,4 +18,9 @@ class ColorScreenState {
             ColorModel("yellow", "FFFEDD16"),
         ),
     )
+
+    fun onColorAdd() {
+        colorList.value = colorList.value + listOf(ColorModel.Empty)
+    }
+
 }
