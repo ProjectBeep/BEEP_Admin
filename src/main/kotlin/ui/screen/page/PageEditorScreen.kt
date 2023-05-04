@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -52,6 +52,12 @@ fun PageEditorScreen(
     onZeplinUrlChange: (String) -> Unit = {},
     onWikiUrlChange: (String) -> Unit = {},
 ) {
+    DisposableEffect(key1 = null) {
+        onDispose {
+            onChangeDropRect(Rect.Zero)
+        }
+    }
+
     Column(
         modifier = Modifier.width(Dimen.editWidth)
             .fillMaxHeight(),
