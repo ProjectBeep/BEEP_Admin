@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import model.ColorModel
 import model.PageModel
 import theme.Dimen
@@ -41,8 +42,6 @@ fun ColorScreen(
     pageList: List<PageModel>,
     screenState: ScreenState,
     colorScreenState: ColorScreenState,
-    onImportClick: () -> Unit,
-    onExportClick: () -> Unit,
 ) {
     Column {
         ColorToolbar(
@@ -51,8 +50,10 @@ fun ColorScreen(
             onPageChange = {
                 screenState.selectModel(it)
             },
-            onImportClick = onImportClick,
-            onExportClick = onExportClick,
+            onImportClick = {
+                colorScreenState.changeShowImport(true)
+            },
+            onExportClick = {},
         )
         ColorTable(
             modifier = Modifier.weight(1f, true),
@@ -60,6 +61,14 @@ fun ColorScreen(
         )
         ColorTableAdd {
             colorScreenState.onColorAdd()
+        }
+    }
+
+    if (colorScreenState.showImport.value) {
+        Dialog(onCloseRequest = {
+            colorScreenState.changeShowImport(false)
+        }) {
+            Text(text = "import 눌렀어요")
         }
     }
 }
@@ -76,12 +85,12 @@ fun ColorToolbar(
         ScreenMenu(pageList, current, onPageChange)
         Spacer(modifier = Modifier.weight(1f))
         Button(
-            onClick = {},
+            onClick = onImportClick,
         ) {
             Text(text = "Import")
         }
         Button(
-            onClick = {},
+            onClick = onExportClick,
         ) {
             Text(text = "Export")
         }

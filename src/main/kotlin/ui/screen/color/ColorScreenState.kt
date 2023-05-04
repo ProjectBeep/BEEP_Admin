@@ -2,7 +2,6 @@ package ui.screen.color
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.geometry.Rect
 import model.ColorModel
 
 class ColorScreenState {
@@ -23,4 +22,9 @@ class ColorScreenState {
         colorList.value = colorList.value + listOf(ColorModel.Empty)
     }
 
+    val showImport = mutableStateOf(false)
+
+    fun changeShowImport(show: Boolean) {
+        showImport.value = show
+    }
 }
