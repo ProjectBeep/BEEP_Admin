@@ -92,6 +92,18 @@ fun main() = application {
                             pageViewModel.pageList.value,
                             screenState,
                             pageState,
+                            onImageClick = {
+                                screenState.selectModel(it)
+                                navState.page.value = Navigation.IMAGE
+                            },
+                            onColorClick = {
+                                screenState.selectModel(it)
+                                navState.page.value = Navigation.COLOR
+                            },
+                            onTextClick = {
+                                screenState.selectModel(it)
+                                navState.page.value = Navigation.TEXT
+                            },
                         )
 
                         Navigation.IMAGE -> ImageScreen(

@@ -41,6 +41,9 @@ fun PageListScreen(
     list: List<PageModel>,
     selectedModel: PageModel?,
     onSelectModel: (PageModel) -> Unit,
+    onColorClick: (PageModel) -> Unit,
+    onImageClick: (PageModel) -> Unit,
+    onTextClick: (PageModel) -> Unit,
 ) {
     LazyVerticalGrid(
         state = persistedLazyGridScrollState(state),
@@ -50,7 +53,14 @@ fun PageListScreen(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         items(list.size) { index ->
-            PageItem(selectedModel?.dir == list[index].dir, list[index], onSelectModel)
+            PageItem(
+                selected = selectedModel?.dir == list[index].dir,
+                model = list[index],
+                onSelectModel = onSelectModel,
+                onColorClick = onColorClick,
+                onImageClick = onImageClick,
+                onTextClick = onTextClick,
+            )
         }
     }
 }
@@ -60,6 +70,9 @@ private fun PageItem(
     selected: Boolean,
     model: PageModel,
     onSelectModel: (PageModel) -> Unit,
+    onColorClick: (PageModel) -> Unit,
+    onImageClick: (PageModel) -> Unit,
+    onTextClick: (PageModel) -> Unit,
 ) {
     Box {
         val modifier = Modifier.size(width = Dimen.pageWidth, height = Dimen.pageHeight)
@@ -102,11 +115,25 @@ private fun PageItem(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
         ) {
             CircleIcon(
+                resourcePath = "drawable/icon_image.svg",
+                onClick = {
+                    onImageClick(model)
+                },
+            )
+
+            CircleIcon(
+                modifier = Modifier.padding(top = 12.dp),
                 resourcePath = "drawable/icon_color.svg",
+                onClick = {
+                    onColorClick(model)
+                },
             )
             CircleIcon(
                 modifier = Modifier.padding(top = 12.dp),
                 resourcePath = "drawable/icon_text.svg",
+                onClick = {
+                    onTextClick(model)
+                },
             )
         }
 

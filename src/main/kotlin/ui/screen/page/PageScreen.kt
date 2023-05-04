@@ -15,6 +15,9 @@ fun PageScreen(
     pageList: List<PageModel>,
     screenState: ScreenState,
     pageState: PageState,
+    onColorClick: (PageModel) -> Unit,
+    onImageClick: (PageModel) -> Unit,
+    onTextClick: (PageModel) -> Unit,
 ) {
     Column {
         PageToolbar(
@@ -39,6 +42,9 @@ fun PageScreen(
                     pageState.selectModel(it)
                     screenState.selectModel(it)
                 },
+                onColorClick = onColorClick,
+                onImageClick = onImageClick,
+                onTextClick = onTextClick,
             )
             if (pageState.showEdit.value) {
                 PageEditorScreen(
