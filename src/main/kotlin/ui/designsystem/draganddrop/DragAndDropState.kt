@@ -18,7 +18,8 @@ class DragAndDropState(
 
     fun dragOver(pos: Point, files: List<File>) {
         val rect = dropRect.value
-        val over = pos.x.toFloat() in rect.left..rect.right &&
+        val over = rect != Rect.Zero &&
+            pos.x.toFloat() in rect.left..rect.right &&
             pos.y.toFloat() in rect.top..rect.bottom
         isDragOver.value = over
         isDropAllow.value = over && files.firstOrNull {

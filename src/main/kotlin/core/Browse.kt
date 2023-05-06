@@ -1,4 +1,4 @@
-package ui.common.utils
+package core
 
 import java.awt.Desktop
 import java.net.URI

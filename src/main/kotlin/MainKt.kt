@@ -15,7 +15,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import core.Compose
-import ui.common.utils.openBrowse
+import core.openBrowse
 import ui.designsystem.draganddrop.WindowDropTarget
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
@@ -49,6 +49,7 @@ fun main() = application {
     val windowDropTarget = WindowDropTarget(
         listOf(
             pageState.editorState.dragAndDropState,
+            imageScreenState.dragAndDropState,
         ),
     )
 
