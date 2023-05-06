@@ -21,16 +21,20 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.rememberDialogState
 import model.ColorModel
 import model.PageModel
 import theme.Dimen
@@ -64,17 +68,59 @@ fun ColorScreen(
         }
     }
 
-    if (colorScreenState.showImport.value) {
-        Dialog(onCloseRequest = {
-            colorScreenState.changeShowImport(false)
-        }) {
-            Text(text = "import 눌렀어요")
+    ImportDialog(
+        show = colorScreenState.showImport.value,
+        onShowChange = {
+            colorScreenState.changeShowImport(it)
+        },
+    )
+}
+
+@Composable
+private fun ImportDialog(
+    show: Boolean,
+    onShowChange: (Boolean) -> Unit = {},
+    onColorImport: () -> Unit = {},
+) {
+    val importText = remember { mutableStateOf("") }
+    if (show) {
+        Dialog(
+            state = rememberDialogState(size = DpSize(600.dp, 800.dp)),
+            title = "색상 가져오기",
+            onCloseRequest = {
+                onShowChange(false)
+            },
+        ) {
+            Column {
+                BasicTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(8.dp)
+                        .border(1.dp, Color.Black)
+                        .padding(8.dp),
+                    value = importText.value,
+                    onValueChange = {
+                        importText.value = it
+                    },
+                )
+                Row {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Button(
+                        onClick = {
+                            onColorImport()
+                        },
+                    ) {
+                        Text(text = "가져오기")
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun ColorToolbar(
+private fun ColorToolbar(
     pageList: List<PageModel>,
     current: PageModel?,
     onPageChange: (PageModel) -> Unit,
@@ -98,7 +144,7 @@ fun ColorToolbar(
 }
 
 @Composable
-fun ColorTable(
+private fun ColorTable(
     colorList: List<ColorModel>,
     modifier: Modifier = Modifier,
 ) {
