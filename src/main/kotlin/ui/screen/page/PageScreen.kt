@@ -35,7 +35,7 @@ fun PageScreen(
                 state = pageState.listState,
                 selectedModel = screenState.selectedModel.value,
                 onSelectModel = {
-                    pageState.editorState.selectModel(null)
+                    pageState.editorState.selectModel(it)
                     screenState.selectModel(it)
                 },
                 onSchemeClick = onSchemeClick,
