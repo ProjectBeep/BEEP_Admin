@@ -92,13 +92,11 @@ fun main() = application {
                         )
 
                         Navigation.COLOR -> ColorScreen(
-                            pageViewModel.pageList.value,
                             screenState,
                             colorScreenState,
                         )
 
                         Navigation.FONT -> FontScreen(
-                            pageViewModel.pageList.value,
                             screenState,
                             fontScreenState,
                         )

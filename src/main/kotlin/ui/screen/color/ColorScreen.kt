@@ -36,24 +36,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.rememberDialogState
 import model.ColorModel
-import model.PageModel
 import theme.Dimen
-import ui.designsystem.screenmenu.ScreenMenu
 import ui.screen.ScreenState
 
 @Composable
 fun ColorScreen(
-    pageList: List<PageModel>,
     screenState: ScreenState,
     colorScreenState: ColorScreenState,
 ) {
     Column {
         ColorToolbar(
-            pageList = pageList,
-            current = screenState.selectedModel.value,
-            onPageChange = {
-                screenState.selectModel(it)
-            },
             onImportClick = {
                 colorScreenState.changeShowImport(true)
             },
@@ -121,14 +113,10 @@ private fun ImportDialog(
 
 @Composable
 private fun ColorToolbar(
-    pageList: List<PageModel>,
-    current: PageModel?,
-    onPageChange: (PageModel) -> Unit,
     onImportClick: () -> Unit = {},
     onExportClick: () -> Unit = {},
 ) {
     Row {
-        ScreenMenu(pageList, current, onPageChange)
         Spacer(modifier = Modifier.weight(1f))
         Button(
             onClick = onImportClick,

@@ -117,20 +117,6 @@ private fun PageItem(
 
             CircleIcon(
                 modifier = Modifier.padding(top = 12.dp),
-                resourcePath = "drawable/icon_color.svg",
-                onClick = {
-                    onSchemeClick(PageScheme.Color(model))
-                },
-            )
-            CircleIcon(
-                modifier = Modifier.padding(top = 12.dp),
-                resourcePath = "drawable/icon_font.svg",
-                onClick = {
-                    onSchemeClick(PageScheme.Font(model))
-                },
-            )
-            CircleIcon(
-                modifier = Modifier.padding(top = 12.dp),
                 resourcePath = "drawable/icon_text.svg",
                 onClick = {
                     onSchemeClick(PageScheme.Text(model))
