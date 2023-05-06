@@ -2,13 +2,13 @@ package ui.screen.page
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.geometry.Rect
 import model.PageModel
 import ui.common.state.LazyGridScrollState
-import java.awt.Point
-import java.io.File
+import ui.designsystem.draganddrop.DragAndDropState
 
-class PageState {
+class PageState(
+    val editorDragAndDropState: DragAndDropState,
+) {
     val lazyGridScrollState = LazyGridScrollState()
 
     val editorScrollState = ScrollState(initial = 0)
@@ -19,28 +19,28 @@ class PageState {
         showEdit.value = value
     }
 
-    private val dropRect = mutableStateOf(Rect.Zero)
-
-    val dragOver = mutableStateOf(false)
-
-    val dropAllow = mutableStateOf(false)
-
-    val dropFile = mutableStateOf<File?>(null)
-
-    fun changeDropRect(rect: Rect) {
-        dropRect.value = rect
-    }
-
-    fun isDropOver(pos: Point): Boolean {
-        val rect = dropRect.value
-        val over = pos.x.toFloat() in rect.left..rect.right &&
-            pos.y.toFloat() in rect.top..rect.bottom
-        dragOver.value = over
-        if (!over) {
-            dropAllow.value = false
-        }
-        return over
-    }
+//    private val dropRect = mutableStateOf(Rect.Zero)
+//
+//    val dragOver = mutableStateOf(false)
+//
+//    val dropAllow = mutableStateOf(false)
+//
+//    val dropFile = mutableStateOf<File?>(null)
+//
+//    fun changeDropRect(rect: Rect) {
+//        dropRect.value = rect
+//    }
+//
+//    fun isDropOver(pos: Point): Boolean {
+//        val rect = dropRect.value
+//        val over = pos.x.toFloat() in rect.left..rect.right &&
+//            pos.y.toFloat() in rect.top..rect.bottom
+//        dragOver.value = over
+//        if (!over) {
+//            dropAllow.value = false
+//        }
+//        return over
+//    }
 
     val editDisplayNameValue = mutableStateOf("")
 
@@ -53,7 +53,7 @@ class PageState {
     val editWikiUrlValue = mutableStateOf("")
 
     fun selectModel(model: PageModel?) {
-        dropFile.value = null
+        editorDragAndDropState.dropFiles(emptyList())
         editDisplayNameValue.value = model?.displayName ?: ""
         editDirValue.value = model?.dir ?: ""
         editFigmaUrlValue.value = model?.figmaUrl ?: ""

@@ -30,9 +30,8 @@ import model.PageModel
 import theme.Dimen
 import ui.common.state.LazyGridScrollState
 import ui.common.state.persistedLazyGridScrollState
+import ui.common.utils.openBrowse
 import ui.designsystem.asyncimage.AsyncImage
-import java.awt.Desktop
-import java.net.URI
 
 @Composable
 fun PageListScreen(
@@ -179,11 +178,6 @@ private fun PageItem(
             }
         }
     }
-}
-
-private fun openBrowse(link: String) {
-    val desktop = Desktop.getDesktop()
-    desktop?.browse(URI(link))
 }
 
 @Composable

@@ -50,17 +50,14 @@ fun PageScreen(
             )
             if (pageState.showEdit.value) {
                 PageEditorScreen(
+                    dragAndDropState = pageState.editorDragAndDropState,
                     scrollState = pageState.editorScrollState,
                     model = screenState.selectedModel.value,
-                    isDragOver = pageState.dragOver.value,
-                    isDropAllow = pageState.dropAllow.value,
-                    tempFile = pageState.dropFile.value,
                     displayNameValue = pageState.editDisplayNameValue.value,
                     dirValue = pageState.editDirValue.value,
                     figmaUrlValue = pageState.editFigmaUrlValue.value,
                     zeplinUrlValue = pageState.editZeplinUrlValue.value,
                     wikiUrlValue = pageState.editWikiUrlValue.value,
-                    onChangeDropRect = { pageState.changeDropRect(it) },
                     onDisplayNameChange = {
                         pageState.editDisplayNameValue.value = it
                     },

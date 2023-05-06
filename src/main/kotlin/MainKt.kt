@@ -11,11 +11,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import core.Compose
+import ui.designsystem.draganddrop.DragAndDropState
+import ui.designsystem.draganddrop.WindowDropTarget
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
 import ui.screen.color.ColorScreenState
@@ -31,22 +32,24 @@ import ui.screen.page.PageState
 import ui.screen.page.PageViewModel
 import ui.screen.text.TextScreen
 import ui.screen.text.TextScreenState
-import java.awt.datatransfer.DataFlavor
-import java.awt.dnd.DnDConstants
-import java.awt.dnd.DropTarget
-import java.awt.dnd.DropTargetDragEvent
-import java.awt.dnd.DropTargetDropEvent
-import java.io.File
 
 fun main() = application {
     val navState = NavState()
     val screenState = ScreenState()
-    val pageState = PageState()
+    val pageState = PageState(
+        DragAndDropState(setOf("jpg", "png", "webp", "xml", "svg")),
+    )
     val imageScreenState = ImageScreenState()
     val colorScreenState = ColorScreenState()
     val fontScreenState = FontScreenState()
     val textScreenState = TextScreenState()
     val pageViewModel = PageViewModel()
+
+    val windowDropTarget = WindowDropTarget(
+        listOf(
+            pageState.editorDragAndDropState,
+        ),
+    )
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -58,30 +61,7 @@ fun main() = application {
             Compose.density = density
         }
 
-        window.contentPane.dropTarget = object : DropTarget() {
-            private val allowExt = setOf("jpg", "png", "webp", "xml", "svg")
-
-            override fun dragOver(dtde: DropTargetDragEvent?) {
-                dtde ?: return
-                if (pageState.isDropOver(dtde.location)) {
-                    val dragFiles = dtde.transferable?.getTransferData(DataFlavor.javaFileListFlavor) as? List<File>
-                    val files = dragFiles?.filter { it.extension in allowExt }
-                    pageState.dropAllow.value = files?.isNotEmpty() ?: false
-                }
-            }
-
-            override fun drop(dtde: DropTargetDropEvent?) {
-                pageState.dragOver.value = false
-
-                dtde ?: return
-                if (pageState.dropAllow.value) {
-                    pageState.dropAllow.value = false
-                    dtde.acceptDrop(DnDConstants.ACTION_REFERENCE)
-                    val dropFiles = dtde.transferable?.getTransferData(DataFlavor.javaFileListFlavor) as? List<File>
-                    pageState.dropFile.value = dropFiles?.first { it.extension in allowExt } ?: return
-                }
-            }
-        }
+        window.contentPane.dropTarget = windowDropTarget
 
         MaterialTheme {
             Column {
@@ -123,7 +103,7 @@ fun main() = application {
                         Navigation.COLOR -> ColorScreen(
                             pageViewModel.pageList.value,
                             screenState,
-                            colorScreenState
+                            colorScreenState,
                         )
 
                         Navigation.FONT -> FontScreen(
