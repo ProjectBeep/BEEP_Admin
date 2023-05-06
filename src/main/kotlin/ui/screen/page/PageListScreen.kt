@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -28,39 +29,32 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import model.PageModel
 import theme.Dimen
-import ui.common.state.LazyGridScrollState
 import ui.common.state.persistedLazyGridScrollState
-import ui.common.utils.openBrowse
 import ui.designsystem.asyncimage.AsyncImage
 
 @Composable
 fun PageListScreen(
     modifier: Modifier = Modifier,
-    state: LazyGridScrollState,
-    list: List<PageModel>,
+    state: PageListState,
     selectedModel: PageModel?,
     onSelectModel: (PageModel) -> Unit,
-    onColorClick: (PageModel) -> Unit,
-    onImageClick: (PageModel) -> Unit,
-    onFontClick: (PageModel) -> Unit,
-    onTextClick: (PageModel) -> Unit,
+    onSchemeClick: (PageScheme) -> Unit,
+    onLinkClick: (String) -> Unit,
 ) {
     LazyVerticalGrid(
-        state = persistedLazyGridScrollState(state),
+        state = persistedLazyGridScrollState(state.lazyGridScrollState),
         modifier = modifier,
         columns = GridCells.Adaptive(Dimen.pageWidth),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        items(list.size) { index ->
+        items(state.pageList.value) { item ->
             PageItem(
-                selected = selectedModel?.dir == list[index].dir,
-                model = list[index],
+                selected = selectedModel?.dir == item.dir,
+                model = item,
                 onSelectModel = onSelectModel,
-                onColorClick = onColorClick,
-                onImageClick = onImageClick,
-                onFontClick = onFontClick,
-                onTextClick = onTextClick,
+                onSchemeClick = onSchemeClick,
+                onLinkClick = onLinkClick,
             )
         }
     }
@@ -71,10 +65,8 @@ private fun PageItem(
     selected: Boolean,
     model: PageModel,
     onSelectModel: (PageModel) -> Unit,
-    onColorClick: (PageModel) -> Unit,
-    onImageClick: (PageModel) -> Unit,
-    onFontClick: (PageModel) -> Unit,
-    onTextClick: (PageModel) -> Unit,
+    onSchemeClick: (PageScheme) -> Unit,
+    onLinkClick: (String) -> Unit,
 ) {
     Box {
         val modifier = Modifier.size(width = Dimen.pageWidth, height = Dimen.pageHeight)
@@ -119,7 +111,7 @@ private fun PageItem(
             CircleIcon(
                 resourcePath = "drawable/icon_image.svg",
                 onClick = {
-                    onImageClick(model)
+                    onSchemeClick(PageScheme.Image(model))
                 },
             )
 
@@ -127,21 +119,21 @@ private fun PageItem(
                 modifier = Modifier.padding(top = 12.dp),
                 resourcePath = "drawable/icon_color.svg",
                 onClick = {
-                    onColorClick(model)
+                    onSchemeClick(PageScheme.Color(model))
                 },
             )
             CircleIcon(
                 modifier = Modifier.padding(top = 12.dp),
                 resourcePath = "drawable/icon_font.svg",
                 onClick = {
-                    onFontClick(model)
+                    onSchemeClick(PageScheme.Font(model))
                 },
             )
             CircleIcon(
                 modifier = Modifier.padding(top = 12.dp),
                 resourcePath = "drawable/icon_text.svg",
                 onClick = {
-                    onTextClick(model)
+                    onSchemeClick(PageScheme.Text(model))
                 },
             )
         }
@@ -154,7 +146,7 @@ private fun PageItem(
                 CircleIcon(
                     resourcePath = "drawable/icon_wiki_link.svg",
                     onClick = {
-                        openBrowse(model.wikiUrl)
+                        onLinkClick(model.wikiUrl)
                     },
                 )
             }
@@ -163,7 +155,7 @@ private fun PageItem(
                     modifier = Modifier.padding(top = 12.dp),
                     resourcePath = "drawable/icon_figma_link.svg",
                     onClick = {
-                        openBrowse(model.figmaUrl)
+                        onLinkClick(model.figmaUrl)
                     },
                 )
             }
@@ -172,7 +164,7 @@ private fun PageItem(
                     modifier = Modifier.padding(top = 12.dp),
                     resourcePath = "drawable/icon_zeplin_link.svg",
                     onClick = {
-                        openBrowse(model.zeplinUrl)
+                        onLinkClick(model.zeplinUrl)
                     },
                 )
             }

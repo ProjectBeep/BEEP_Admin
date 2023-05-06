@@ -12,13 +12,10 @@ import ui.screen.ScreenState
 
 @Composable
 fun PageScreen(
-    pageList: List<PageModel>,
     screenState: ScreenState,
     pageState: PageState,
-    onColorClick: (PageModel) -> Unit,
-    onImageClick: (PageModel) -> Unit,
-    onFontClick: (PageModel) -> Unit,
-    onTextClick: (PageModel) -> Unit,
+    onSchemeClick: (PageScheme) -> Unit,
+    onLinkClick: (String) -> Unit,
 ) {
     Column {
         PageToolbar(
@@ -33,46 +30,22 @@ fun PageScreen(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
                 ) {
-                    pageState.selectModel(null)
+                    pageState.editorState.selectModel(null)
                     screenState.selectModel(null)
                 },
-                list = pageList,
-                state = pageState.lazyGridScrollState,
+                state = pageState.listState,
                 selectedModel = screenState.selectedModel.value,
                 onSelectModel = {
-                    pageState.selectModel(it)
+                    pageState.editorState.selectModel(null)
                     screenState.selectModel(it)
                 },
-                onColorClick = onColorClick,
-                onImageClick = onImageClick,
-                onFontClick = onFontClick,
-                onTextClick = onTextClick,
+                onSchemeClick = onSchemeClick,
+                onLinkClick = onLinkClick,
             )
             if (pageState.showEdit.value) {
                 PageEditorScreen(
-                    dragAndDropState = pageState.editorDragAndDropState,
-                    scrollState = pageState.editorScrollState,
+                    state = pageState.editorState,
                     model = screenState.selectedModel.value,
-                    displayNameValue = pageState.editDisplayNameValue.value,
-                    dirValue = pageState.editDirValue.value,
-                    figmaUrlValue = pageState.editFigmaUrlValue.value,
-                    zeplinUrlValue = pageState.editZeplinUrlValue.value,
-                    wikiUrlValue = pageState.editWikiUrlValue.value,
-                    onDisplayNameChange = {
-                        pageState.editDisplayNameValue.value = it
-                    },
-                    onDirChange = {
-                        pageState.editDirValue.value = it
-                    },
-                    onFigmaUrlChange = {
-                        pageState.editFigmaUrlValue.value = it
-                    },
-                    onZeplinUrlChange = {
-                        pageState.editZeplinUrlValue.value = it
-                    },
-                    onWikiUrlChange = {
-                        pageState.editWikiUrlValue.value = it
-                    },
                 )
             }
         }

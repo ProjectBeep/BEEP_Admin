@@ -15,7 +15,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import core.Compose
-import ui.designsystem.draganddrop.DragAndDropState
+import ui.common.utils.openBrowse
 import ui.designsystem.draganddrop.WindowDropTarget
 import ui.screen.ScreenState
 import ui.screen.color.ColorScreen
@@ -36,18 +36,19 @@ import ui.screen.text.TextScreenState
 fun main() = application {
     val navState = NavState()
     val screenState = ScreenState()
-    val pageState = PageState(
-        DragAndDropState(setOf("jpg", "png", "webp", "xml", "svg")),
-    )
+    val pageState = PageState()
     val imageScreenState = ImageScreenState()
     val colorScreenState = ColorScreenState()
     val fontScreenState = FontScreenState()
     val textScreenState = TextScreenState()
     val pageViewModel = PageViewModel()
+    pageState.listState.changeList(
+        pageViewModel.pageList.value,
+    )
 
     val windowDropTarget = WindowDropTarget(
         listOf(
-            pageState.editorDragAndDropState,
+            pageState.editorState.dragAndDropState,
         ),
     )
 
@@ -73,24 +74,14 @@ fun main() = application {
                     }
                     when (navState.page.value) {
                         Navigation.PAGE -> PageScreen(
-                            pageViewModel.pageList.value,
                             screenState,
                             pageState,
-                            onImageClick = {
-                                screenState.selectModel(it)
-                                navState.page.value = Navigation.IMAGE
+                            onSchemeClick = {
+                                navState.page.value = it.navigation
+                                screenState.selectModel(it.model)
                             },
-                            onColorClick = {
-                                screenState.selectModel(it)
-                                navState.page.value = Navigation.COLOR
-                            },
-                            onFontClick = {
-                                screenState.selectModel(it)
-                                navState.page.value = Navigation.FONT
-                            },
-                            onTextClick = {
-                                screenState.selectModel(it)
-                                navState.page.value = Navigation.TEXT
+                            onLinkClick = {
+                                openBrowse(it)
                             },
                         )
 

@@ -1,6 +1,5 @@
 package ui.screen.page
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -27,23 +26,11 @@ import model.PageModel
 import theme.Dimen
 import ui.designsystem.asyncimage.AsyncImage
 import ui.designsystem.draganddrop.DragAndDrop
-import ui.designsystem.draganddrop.DragAndDropState
 
 @Composable
 fun PageEditorScreen(
-    dragAndDropState: DragAndDropState,
-    scrollState: ScrollState,
+    state: PageEditorState,
     model: PageModel?,
-    displayNameValue: String,
-    dirValue: String,
-    figmaUrlValue: String,
-    zeplinUrlValue: String,
-    wikiUrlValue: String,
-    onDisplayNameChange: (String) -> Unit = {},
-    onDirChange: (String) -> Unit = {},
-    onFigmaUrlChange: (String) -> Unit = {},
-    onZeplinUrlChange: (String) -> Unit = {},
-    onWikiUrlChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.width(Dimen.editWidth)
@@ -61,7 +48,7 @@ fun PageEditorScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState),
+                .verticalScroll(state.scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             DragAndDrop(
@@ -70,7 +57,7 @@ fun PageEditorScreen(
                         width = 1.dp,
                         color = Color.Black,
                     ),
-                state = dragAndDropState,
+                state = state.dragAndDropState,
                 dragOverAllowContent = {
                     Box(
                         modifier = Modifier.fillMaxSize()
@@ -100,7 +87,7 @@ fun PageEditorScreen(
                     }
                 },
             ) {
-                if (dragAndDropState.firstDroppedFile.value == null && model != null) {
+                if (state.dragAndDropState.firstDroppedFile.value == null && model != null) {
                     AsyncImage(
                         model.thumbnail,
                         contentDescription = "선택된 이미지",
@@ -108,7 +95,7 @@ fun PageEditorScreen(
                     )
                 } else {
                     AsyncImage(
-                        dragAndDropState.firstDroppedFile.value,
+                        state.dragAndDropState.firstDroppedFile.value,
                         contentDescription = "임시 파일",
                         modifier = Modifier.size(width = Dimen.pageWidth, height = Dimen.pageHeight),
                     )
@@ -117,36 +104,46 @@ fun PageEditorScreen(
 
             InputTextField(
                 label = "이름",
-                value = displayNameValue,
-                onValueChange = onDisplayNameChange,
+                value = state.displayName.value,
+                onValueChange = {
+                    state.displayName.value = it
+                },
                 modifier = Modifier.padding(top = 16.dp),
             )
 
             InputTextField(
                 label = "경로",
-                value = dirValue,
-                onValueChange = onDirChange,
+                value = state.dir.value,
+                onValueChange = {
+                    state.dir.value = it
+                },
                 modifier = Modifier.padding(top = 16.dp),
             )
 
             InputTextField(
                 label = "피그마 링크",
-                value = figmaUrlValue,
-                onValueChange = onFigmaUrlChange,
+                value = state.figmaUrl.value,
+                onValueChange = {
+                    state.figmaUrl.value = it
+                },
                 modifier = Modifier.padding(top = 16.dp),
             )
 
             InputTextField(
                 label = "제플린 링크",
-                value = zeplinUrlValue,
-                onValueChange = onZeplinUrlChange,
+                value = state.zeplinUrl.value,
+                onValueChange = {
+                    state.zeplinUrl.value = it
+                },
                 modifier = Modifier.padding(top = 16.dp),
             )
 
             InputTextField(
                 label = "위키 링크",
-                value = wikiUrlValue,
-                onValueChange = onWikiUrlChange,
+                value = state.wikiUrl.value,
+                onValueChange = {
+                    state.wikiUrl.value = it
+                },
                 modifier = Modifier.padding(top = 16.dp),
             )
         }
