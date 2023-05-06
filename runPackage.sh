@@ -15,11 +15,11 @@ elif [[ "$CHECK_OS" = "CYGWIN"* ]]; then
 fi
 
 sudo chmod +x ./gradlew
-if [[ "$THIS_OS" = "MAC" ]]; then
+if [[ "$THIS_OS" == "MAC" ]]; then
     sudo ./gradlew packageDmg
-elif [[ "$THIS_OS" = "LINUX" ]]; then
+elif [[ "$THIS_OS" == "LINUX" ]]; then
     sudo ./gradlew packageDeb
-elif [[ "$THIS_OS" = "WIN" ]]; then
+elif [[ "$THIS_OS" == "WIN" ]]; then
     sudo ./gradlew packageMsi
 fi
 
